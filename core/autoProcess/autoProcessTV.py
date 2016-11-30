@@ -79,7 +79,11 @@ class autoProcessTV(object):
         force = int(cfg.get("force", 0))
         delete_on = int(cfg.get("delete_on", 0))
         ignore_subs = int(cfg.get("ignore_subs", 0))
-        extract = int(cfg.get("extract", 0))
+        status = int(failed)
+        if status > 0 and core.NOEXTRACTFAILED:
+            extract = 0
+        else:
+            extract = int(cfg.get("extract", 0))
 
         if not os.path.isdir(dirName) and os.path.isfile(dirName):  # If the input directory is a file, assume single file download and split dir/name.
             dirName = os.path.split(os.path.normpath(dirName))[0]
@@ -117,7 +121,6 @@ class autoProcessTV(object):
                 flatten(dirName)
 
         # Check video files for corruption
-        status = int(failed)
         good_files = 0
         num_files = 0
         for video in listMediaFiles(dirName, media=True, audio=False, meta=False, archives=False):
@@ -182,6 +185,7 @@ class autoProcessTV(object):
         for param in copy.copy(fork_params):
             if param == "failed":
                 fork_params[param] = failed
+                del fork_params['proc_type']
 
             if param in ["dirName", "dir", "proc_dir"]:
                 fork_params[param] = dirName

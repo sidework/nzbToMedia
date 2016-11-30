@@ -267,8 +267,8 @@ class ConfigObj(configobj.ConfigObj, Section):
                 CFG_NEW[section][option] = value
 
             section = "General"
-            envKeys = ['AUTO_UPDATE', 'CHECK_MEDIA', 'SAFE_MODE']
-            cfgKeys = ['auto_update', 'check_media', 'safe_mode']
+            envKeys = ['AUTO_UPDATE', 'CHECK_MEDIA', 'SAFE_MODE', 'NO_EXTRACT_FAILED']
+            cfgKeys = ['auto_update', 'check_media', 'safe_mode', 'no_extract_failed']
             for index in range(len(envKeys)):
                 key = 'NZBPO_{index}'.format(index=envKeys[index])
                 if key in os.environ:
@@ -418,7 +418,7 @@ class ConfigObj(configobj.ConfigObj, Section):
                        'OUTPUTAUDIOTRACK2CODEC', 'AUDIOCODEC2ALLOW', 'OUTPUTAUDIOTRACK2BITRATE',
                        'OUTPUTAUDIOOTHERCODEC', 'AUDIOOTHERCODECALLOW', 'OUTPUTAUDIOOTHERBITRATE',
                        'OUTPUTSUBTITLECODEC', 'OUTPUTAUDIOCHANNELS', 'OUTPUTAUDIOTRACK2CHANNELS',
-                       'OUTPUTAUDIOOTHERCHANNELS']
+                       'OUTPUTAUDIOOTHERCHANNELS','OUTPUTVIDEORESOLUTION']
             cfgKeys = ['transcode', 'duplicate', 'ignoreExtensions', 'outputFastStart', 'outputVideoPath',
                        'processOutput', 'audioLanguage', 'allAudioLanguages', 'subLanguages',
                        'allSubLanguages', 'embedSubs', 'burnInSubtitle', 'extractSubs', 'externalSubDir',
@@ -428,7 +428,7 @@ class ConfigObj(configobj.ConfigObj, Section):
                        'outputAudioTrack2Codec', 'AudioCodec2Allow', 'outputAudioTrack2Bitrate',
                        'outputAudioOtherCodec', 'AudioOtherCodecAllow', 'outputAudioOtherBitrate',
                        'outputSubtitleCodec', 'outputAudioChannels', 'outputAudioTrack2Channels',
-                       'outputAudioOtherChannels']
+                       'outputAudioOtherChannels', 'outputVideoResolution']
             for index in range(len(envKeys)):
                 key = 'NZBPO_{index}'.format(index=envKeys[index])
                 if key in os.environ:

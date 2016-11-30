@@ -100,6 +100,7 @@ GIT_BRANCH = None
 GIT_REPO = None
 FORCE_CLEAN = None
 SAFE_MODE = None
+NOEXTRACTFAILED = None
 
 NZB_CLIENTAGENT = None
 SABNZBDHOST = None
@@ -216,7 +217,7 @@ __INITIALIZED__ = False
 
 def initialize(section=None):
     global NZBGET_POSTPROCESS_ERROR, NZBGET_POSTPROCESS_NONE, NZBGET_POSTPROCESS_PARCHECK, NZBGET_POSTPROCESS_SUCCESS, \
-        NZBTOMEDIA_TIMEOUT, FORKS, FORK_DEFAULT, FORK_FAILED_TORRENT, FORK_FAILED, \
+        NZBTOMEDIA_TIMEOUT, FORKS, FORK_DEFAULT, FORK_FAILED_TORRENT, FORK_FAILED, NOEXTRACTFAILED, \
         NZBTOMEDIA_BRANCH, NZBTOMEDIA_VERSION, NEWEST_VERSION, NEWEST_VERSION_STRING, VERSION_NOTIFY, SYS_ARGV, CFG, \
         SABNZB_NO_OF_ARGUMENTS, SABNZB_0717_NO_OF_ARGUMENTS, CATEGORIES, TORRENT_CLIENTAGENT, USELINK, OUTPUTDIRECTORY, \
         NOFLATTEN, UTORRENTPWD, UTORRENTUSR, UTORRENTWEBUI, DELUGEHOST, DELUGEPORT, DELUGEUSR, DELUGEPWD, VLEVEL, \
@@ -308,7 +309,7 @@ def initialize(section=None):
     nzbToMediaDB.upgradeDatabase(nzbToMediaDB.DBConnection(), mainDB.InitialSchema)
 
     # Set Version and GIT variables
-    NZBTOMEDIA_VERSION = '11.01'
+    NZBTOMEDIA_VERSION = '11.02'
     VERSION_NOTIFY = int(CFG['General']['version_notify'])
     AUTO_UPDATE = int(CFG['General']['auto_update'])
     GIT_REPO = 'nzbToMedia'
@@ -319,6 +320,7 @@ def initialize(section=None):
     FFMPEG_PATH = CFG["General"]["ffmpeg_path"]
     CHECK_MEDIA = int(CFG["General"]["check_media"])
     SAFE_MODE = int(CFG["General"]["safe_mode"])
+    NOEXTRACTFAILED = int(CFG["General"]["no_extract_failed"])
 
     # Check for updates via GitHUB
     if versionCheck.CheckVersion().check_for_new_version():
@@ -345,7 +347,7 @@ def initialize(section=None):
 
     NZB_CLIENTAGENT = CFG["Nzb"]["clientAgent"]  # sabnzbd
     SABNZBDHOST = CFG["Nzb"]["sabnzbd_host"]
-    SABNZBDPORT = int(CFG["Nzb"]["sabnzbd_port"])
+    SABNZBDPORT = int(CFG["Nzb"]["sabnzbd_port"] or 8080) # defaults to accomodate NzbGet
     SABNZBDAPIKEY = CFG["Nzb"]["sabnzbd_apikey"]
     NZB_DEFAULTDIR = CFG["Nzb"]["default_downloadDirectory"]
     GROUPS = CFG["Custom"]["remove_group"]
@@ -658,7 +660,7 @@ def initialize(section=None):
             'SCODEC':'mov_text'
             },
         'MKV-SD':{
-            'VEXTENSION':'.mkv','VCODEC':'libx264','VPRESET':None,'VFRAMERATE':None,'VBITRATE':None,'VCRF':None,'VLEVEL':None,
+            'VEXTENSION':'.mkv','VCODEC':'libx264','VPRESET':None,'VFRAMERATE':None,'VBITRATE':'1200k','VCRF':None,'VLEVEL':None,
             'VRESOLUTION':'720:-1','VCODEC_ALLOW':['libx264', 'h264', 'h.264', 'AVC', 'avc', 'mpeg4', 'msmpeg4', 'MPEG-4'],
             'ACODEC':'aac','ACODEC_ALLOW':['libfaac'],'ABITRATE':128000, 'ACHANNELS':2,
             'ACODEC2':'ac3','ACODEC2_ALLOW':['ac3'],'ABITRATE2':None, 'ACHANNELS2':6,
