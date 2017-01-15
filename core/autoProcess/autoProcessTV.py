@@ -187,7 +187,7 @@ class autoProcessTV(object):
                 fork_params[param] = failed
                 del fork_params['proc_type']
 
-            if param in ["dirName", "dir", "proc_dir"]:
+            if param in ["dirName", "dir", "proc_dir", "process_directory"]:
                 fork_params[param] = dirName
                 if remote_path:
                     fork_params[param] = remoteDir(dirName)
@@ -215,6 +215,9 @@ class autoProcessTV(object):
                     fork_params[param] = ignore_subs
                 else:
                     del fork_params[param]
+
+            if param == "force_next":
+                fork_params[param] = 1
 
         # delete any unused params so we don't pass them to SB by mistake
         [fork_params.pop(k) for k, v in fork_params.items() if v is None]
@@ -275,6 +278,7 @@ class autoProcessTV(object):
             return [1, "{0}: Failed to post-process - Server returned status {1}".format(section, r.status_code)]
 
         Success = False
+        Queued = False
         Started = False
         if section == "SickBeard":
             for line in r.iter_lines():
@@ -282,8 +286,12 @@ class autoProcessTV(object):
                     logger.postprocess("{0}".format(line), section)
                     if "Moving file from" in line:
                         inputName = os.path.split(line)[1]
+                    if "added to the queue" in line:
+                        Queued = True
                     if "Processing succeeded" in line or "Successfully processed" in line:
                         Success = True
+            if Queued:
+                time.sleep(60)
         elif section == "NzbDrone":
             try:
                 res = json.loads(r.content)
