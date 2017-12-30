@@ -1,10 +1,10 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python2
 # coding=utf-8
 #
 ##############################################################################
 ### NZBGET POST-PROCESSING SCRIPT                                          ###
 
-# Post-Process to CouchPotato, SickBeard, NzbDrone, Mylar, Gamez, HeadPhones.
+# Post-Process to Radarr.
 #
 # This script sends the download to your automated media management servers.
 #
@@ -35,63 +35,53 @@
 # Turn this on to disable additional extraction attempts for failed downloads. Default = 0 this will attempt to extract and verify if media is present.
 #no_extract_failed = 0
 
-## CouchPotato
+## Radarr
 
-# CouchPotato script category.
+# Radarr script category.
 #
-# category that gets called for post-processing with CouchPotatoServer.
-#cpsCategory=movie
+# category that gets called for post-processing with NzbDrone.
+#raCategory=movies2
 
-# CouchPotato api key.
-#cpsapikey=
-
-# CouchPotato host.
+# Radarr host.
 #
-# The ipaddress for your CouchPotato server. e.g For the Same system use localhost or 127.0.0.1
-#cpshost=localhost
+# The ipaddress for your Radarr server. e.g For the Same system use localhost or 127.0.0.1
+#rahost=localhost
 
-# CouchPotato port.
-#cpsport=5050
+# Radarr port.
+#raport=7878
 
-# CouchPotato uses ssl (0, 1).
+# Radarr API key.
+#raapikey=
+
+# Radarr uses ssl (0, 1).
 #
 # Set to 1 if using ssl, else set to 0.
-#cpsssl=0
+#rassl=0
 
-# CouchPotato URL_Base
+# Radarr web_root
 #
 # set this if using a reverse proxy.
-#cpsweb_root=
+#raweb_root=
 
-# CouchPotato watch directory.
-#
-# set this to where your CouchPotato completed downloads are.
-#cpswatch_dir=
-
-# CouchPotato OMDB API Key.
+# Radarr OMDB API Key.
 #
 # api key for www.omdbapi.com (used as alternative to imdb to assist with movie identification).
-#cpsomdbapikey=
+#raomdbapikey=
 
-# CouchPotato Postprocess Method (renamer, manage).
+# Radarr wait_for
 #
-# use "renamer" for CPS renamer (default) or "manage" to call a manage update.
-#cpsmethod=renamer
+# Set the number of minutes to wait after calling the renamer, to check the episode has changed status.
+#rawait_for=6
 
-# CouchPotato Delete Failed Downloads (0, 1).
+# Radarr Delete Failed Downloads (0, 1).
 #
 # set to 1 to delete failed, or 0 to leave files in place.
-#cpsdelete_failed=0
+#radelete_failed=0
 
-# CouchPotato wait_for
-#
-# Set the number of minutes to wait after calling the renamer, to check the movie has changed status.
-#cpswait_for=2
-
-# CouchPotatoServer and NZBGet are a different system (0, 1).
+# Radarr and NZBGet are a different system (0, 1).
 #
 # Enable to replace local path with the path as per the mountPoints below.
-#cpsremote_path=0
+#raremote_path=0
 
 ## Network
 
@@ -130,12 +120,12 @@
 # getSubs (0, 1).
 #
 # set to 1 to download subtitles.
-#getSubs=0
+#getSubs = 0
 
 # subLanguages.
 #
 # subLanguages. create a list of languages in the order you want them in your subtitles. 
-#subLanguages=eng,spa,fra
+#subLanguages = eng,spa,fra
 
 # Transcode (0, 1).
 #
@@ -155,58 +145,58 @@
 # outputFastStart (0,1).
 #
 # outputFastStart. 1 will use -movflags + faststart. 0 will disable this from being used.
-#outputFastStart=0
+#outputFastStart = 0
 
 # outputVideoPath.
 #
 # outputVideoPath. Set path you want transcoded videos moved to. Leave blank to disable.
-#outputVideoPath=
+#outputVideoPath = 
 
 # processOutput (0,1).
 #
 # processOutput. 1 will send the outputVideoPath to SickBeard/CouchPotato. 0 will send original files.
-#processOutput=0
+#processOutput = 0
 
 # audioLanguage.
 #
 # audioLanguage. set the 3 letter language code you want as your primary audio track.
-#audioLanguage=eng
+#audioLanguage = eng
 
 # allAudioLanguages (0,1).
 #
 # allAudioLanguages. 1 will keep all audio tracks (uses AudioCodec3) where available.
-#allAudioLanguages=0
+#allAudioLanguages = 0
 
 # allSubLanguages (0,1).
 #
 # allSubLanguages. 1 will keep all exisiting sub languages. 0 will discare those not in your list above.
-#allSubLanguages=0
+#allSubLanguages = 0
 
 # embedSubs (0,1).
 #
 # embedSubs. 1 will embded external sub/srt subs into your video if this is supported.
-#embedSubs=1
+#embedSubs = 1
 
 # burnInSubtitle (0,1).
 #
 # burnInSubtitle. burns the default sub language into your video (needed for players that don't support subs)
-#burnInSubtitle=0
+#burnInSubtitle = 0
 
 # extractSubs (0,1).
 #
 # extractSubs. 1 will extract subs from the video file and save these as external srt files.
-#extractSubs=0
+#extractSubs = 0
 
 # externalSubDir.
 #
 # externalSubDir. set the directory where subs should be saved (if not the same directory as the video)
-#externalSubDir=
+#externalSubDir =
 
 # outputDefault (None, iPad, iPad-1080p, iPad-720p, Apple-TV2, iPod, iPhone, PS3, xbox, Roku-1080p, Roku-720p, Roku-480p, mkv, mp4-scene-release, MKV-SD).
 #
 # outputDefault. Loads default configs for the selected device. The remaining options below are ignored.
 # If you want to use your own profile, set None and set the remaining options below.
-#outputDefault=None
+#outputDefault = None
 
 # hwAccel (0,1).
 #
@@ -216,25 +206,22 @@
 # ffmpeg output settings.
 #outputVideoExtension=.mp4
 #outputVideoCodec=libx264
-#VideoCodecAllow= 
+#VideoCodecAllow = 
 #outputVideoResolution=720:-1
 #outputVideoPreset=medium
 #outputVideoFramerate=24
 #outputVideoBitrate=800k
-#outputAudioCodec=ac3
-#AudioCodecAllow=
-#outputAudioChannels=6
-#outputAudioBitrate=640k
-#outputQualityPercent=
-#outputAudioTrack2Codec=libfaac
-#AudioCodec2Allow= 
-#outputAudioTrack2Channels=2
-#outputAudioTrack2Bitrate=160k
-#outputAudioOtherCodec=libmp3lame
-#AudioOtherCodecAllow=
-#outputAudioOtherChannels=2
-#outputAudioOtherBitrate=128k
-#outputSubtitleCodec=
+#outputAudioCodec=libmp3lame
+#AudioCodecAllow = 
+#outputAudioBitrate=128k
+#outputQualityPercent = 0
+#outputAudioTrack2Codec = libfaac
+#AudioCodec2Allow = 
+#outputAudioTrack2Bitrate = 128k
+#outputAudioOtherCodec = libmp3lame
+#AudioOtherCodecAllow = 
+#outputAudioOtherBitrate = 128k
+#outputSubtitleCodec =
 
 ## WakeOnLan
 
@@ -258,6 +245,6 @@
 import sys
 import nzbToMedia
 
-section = "CouchPotato"
+section = "Radarr"
 result = nzbToMedia.main(sys.argv, section)
 sys.exit(result)

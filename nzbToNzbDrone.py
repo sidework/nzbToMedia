@@ -4,7 +4,7 @@
 ##############################################################################
 ### NZBGET POST-PROCESSING SCRIPT                                          ###
 
-# Post-Process to NzbDrone.
+# Post-Process to NzbDrone/Sonarr.
 #
 # This script sends the download to your automated media management servers.
 #
@@ -66,7 +66,7 @@
 # NzbDrone wait_for
 #
 # Set the number of minutes to wait after calling the renamer, to check the episode has changed status.
-#ndwait_for=2
+#ndwait_for=6
 
 # NzbDrone Delete Failed Downloads (0, 1).
 #
