@@ -126,6 +126,11 @@
 # api key for www.omdbapi.com (used as alternative to imdb to assist with movie identification).
 #raomdbapikey=
 
+# Radarr import mode (Move, Copy).
+#
+# set to define import behaviour Move or Copy
+#raimportmode=Copy
+
 # Radarr Delete Failed Downloads (0, 1).
 #
 # set to 1 to delete failed, or 0 to leave files in place.
@@ -230,6 +235,11 @@
 # Set the number of minutes to wait after calling the renamer, to check the episode has changed status.
 #ndwait_for=6
 
+# NzbDrone import mode (Move, Copy).
+#
+# set to define import behaviour Move or Copy
+#ndimportmode=Copy
+
 # NzbDrone Delete Failed Downloads (0, 1).
 #
 # set to 1 to delete failed, or 0 to leave files in place.
@@ -267,6 +277,11 @@
 #
 # set this if using a reverse proxy.
 #hpweb_root=
+
+# HeadPhones Delete Failed Downloads (0, 1).
+#
+# set to 1 to delete failed, or 0 to leave files in place.
+#hpdelete_failed=0
 
 # HeadPhones and NZBGet are a different system (0, 1).
 #
@@ -331,11 +346,8 @@
 # Mylar port.
 #myport=8090
 
-# Mylar username.
-#myusername=
-
-# Mylar password.
-#mypassword=
+# Mylar api key.
+#myapikey=
 
 # Mylar uses ssl (0, 1).
 #

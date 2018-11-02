@@ -27,6 +27,10 @@ class autoProcessMovie(object):
             cmd = "media.get"
             params['id'] = release_id or imdbid
 
+        if not (release_id or imdbid or download_id):
+            logger.debug("No information available to filter CP results")
+            return results
+
         url = "{0}{1}".format(baseURL, cmd)
         logger.debug("Opening URL: {0} with PARAMS: {1}".format(url, params))
 
@@ -80,6 +84,7 @@ class autoProcessMovie(object):
 
                     id = release['_id']
                     results[id] = release
+                    results[id]['title'] = movie['title']
                 except:
                     continue
 
@@ -148,6 +153,11 @@ class autoProcessMovie(object):
             method = cfg["method"]
         else:
             method = None
+        #added importMode for Radarr config
+        if section == "Radarr":
+            importMode = cfg.get("importMode","Move")
+        else:
+            importMode = None
         delete_failed = int(cfg["delete_failed"])
         wait_for = int(cfg["wait_for"])
         ssl = int(cfg.get("ssl", 0))
@@ -269,7 +279,7 @@ class autoProcessMovie(object):
                 return [0, "{0}: Successfully post-processed {1}".format(section, inputName)]
 
             params = {}
-            if download_id:
+            if download_id and release_id:
                 params['downloader'] = downloader or clientAgent
                 params['download_id'] = download_id
 
@@ -287,7 +297,7 @@ class autoProcessMovie(object):
                 logger.postprocess("Starting {0} scan for {1}".format(method, inputName), section)
 
             if section == "Radarr":
-                payload = {'name': 'DownloadedMoviesScan', 'path': params['media_folder'], 'downloadClientId': download_id}
+                payload = {'name': 'DownloadedMoviesScan', 'path': params['media_folder'], 'downloadClientId': download_id,'importMode' : importMode}
                 if not download_id:
                     payload.pop("downloadClientId")
                 logger.debug("Opening URL: {0} with PARAMS: {1}".format(baseURL, payload), section)
@@ -405,14 +415,17 @@ class autoProcessMovie(object):
                 release = None
             if release:
                 try:
-                    if release_id is None and release_status_old is None:  # we didn't have a release before, but now we do.
-                        logger.postprocess("SUCCESS: Movie {0} has now been added to CouchPotato".format(imdbid), section)
+                    release_id = release.keys()[0]
+                    title = release[release_id]['title']
+                    release_status_new = release[release_id]['status']
+                    if release_status_old is None:  # we didn't have a release before, but now we do.
+                        logger.postprocess("SUCCESS: Movie {0} has now been added to CouchPotato with release status of [{1}]".format(
+                            title, str(release_status_new).upper()), section)
                         return [0, "{0}: Successfully post-processed {1}".format(section, inputName)]
 
-                    release_status_new = release[release_id]['status']
                     if release_status_new != release_status_old:
-                        logger.postprocess("SUCCESS: Release {0} has now been marked with a status of [{1}]".format(
-                            inputName, str(release_status_new).upper()), section)
+                        logger.postprocess("SUCCESS: Release for {0} has now been marked with a status of [{1}]".format(
+                            title, str(release_status_new).upper()), section)
                         return [0, "{0}: Successfully post-processed {1}".format(section, inputName)]
                 except:
                     pass

@@ -157,7 +157,7 @@ class ConfigObj(configobj.ConfigObj, Section):
                     if option == ['outputDirectory']:
                         CFG_NEW['Torrent'][option] = os.path.split(os.path.normpath(value))[0]
                         values.pop(option)
-                if section in ['CouchPotato', 'HeadPhones', 'Gamez']:
+                if section in ['CouchPotato', 'HeadPhones', 'Gamez', 'Mylar']:
                     if option in ['username', 'password']:
                         values.pop(option)
                 if section in ["SickBeard", "Mylar"]:
@@ -335,8 +335,8 @@ class ConfigObj(configobj.ConfigObj, Section):
 
             section = "HeadPhones"
             envCatKey = 'NZBPO_HPCATEGORY'
-            envKeys = ['ENABLED', 'APIKEY', 'HOST', 'PORT', 'SSL', 'WEB_ROOT', 'WAIT_FOR', 'WATCH_DIR', 'REMOTE_PATH']
-            cfgKeys = ['enabled', 'apikey', 'host', 'port', 'ssl', 'web_root', 'wait_for', 'watch_dir', 'remote_path']
+            envKeys = ['ENABLED', 'APIKEY', 'HOST', 'PORT', 'SSL', 'WEB_ROOT', 'WAIT_FOR', 'WATCH_DIR', 'REMOTE_PATH', 'DELETE_FAILED']
+            cfgKeys = ['enabled', 'apikey', 'host', 'port', 'ssl', 'web_root', 'wait_for', 'watch_dir', 'remote_path', 'delete_failed']
             if envCatKey in os.environ:
                 for index in range(len(envKeys)):
                     key = 'NZBPO_HP{index}'.format(index=envKeys[index])
@@ -347,6 +347,8 @@ class ConfigObj(configobj.ConfigObj, Section):
                             CFG_NEW[section][os.environ[envCatKey]] = {}
                         CFG_NEW[section][os.environ[envCatKey]][option] = value
                 CFG_NEW[section][os.environ[envCatKey]]['enabled'] = 1
+                if os.environ[envCatKey] in CFG_NEW['Lidarr'].sections:
+                    CFG_NEW['Lidarr'][envCatKey]['enabled'] = 0
 
             section = "Mylar"
             envCatKey = 'NZBPO_MYCATEGORY'
@@ -383,9 +385,10 @@ class ConfigObj(configobj.ConfigObj, Section):
             section = "NzbDrone"
             envCatKey = 'NZBPO_NDCATEGORY'
             envKeys = ['ENABLED', 'HOST', 'APIKEY', 'PORT', 'SSL', 'WEB_ROOT', 'WATCH_DIR', 'FORK', 'DELETE_FAILED',
-                       'TORRENT_NOLINK', 'NZBEXTRACTIONBY', 'WAIT_FOR', 'DELETE_FAILED', 'REMOTE_PATH']
+                       'TORRENT_NOLINK', 'NZBEXTRACTIONBY', 'WAIT_FOR', 'DELETE_FAILED', 'REMOTE_PATH', 'IMPORTMODE']
+            #new cfgKey added for importMode
             cfgKeys = ['enabled', 'host', 'apikey', 'port', 'ssl', 'web_root', 'watch_dir', 'fork', 'delete_failed',
-                       'Torrent_NoLink', 'nzbExtractionBy', 'wait_for', 'delete_failed', 'remote_path']
+                       'Torrent_NoLink', 'nzbExtractionBy', 'wait_for', 'delete_failed', 'remote_path','importMode']
             if envCatKey in os.environ:
                 for index in range(len(envKeys)):
                     key = 'NZBPO_ND{index}'.format(index=envKeys[index])
@@ -402,9 +405,10 @@ class ConfigObj(configobj.ConfigObj, Section):
             section = "Radarr"
             envCatKey = 'NZBPO_RACATEGORY'
             envKeys = ['ENABLED', 'HOST', 'APIKEY', 'PORT', 'SSL', 'WEB_ROOT', 'WATCH_DIR', 'FORK', 'DELETE_FAILED',
-                       'TORRENT_NOLINK', 'NZBEXTRACTIONBY', 'WAIT_FOR', 'DELETE_FAILED', 'REMOTE_PATH', 'OMDBAPIKEY']
+                       'TORRENT_NOLINK', 'NZBEXTRACTIONBY', 'WAIT_FOR', 'DELETE_FAILED', 'REMOTE_PATH', 'OMDBAPIKEY', 'IMPORTMODE']
+            #new cfgKey added for importMode
             cfgKeys = ['enabled', 'host', 'apikey', 'port', 'ssl', 'web_root', 'watch_dir', 'fork', 'delete_failed',
-                       'Torrent_NoLink', 'nzbExtractionBy', 'wait_for', 'delete_failed', 'remote_path', 'omdbapikey']
+                       'Torrent_NoLink', 'nzbExtractionBy', 'wait_for', 'delete_failed', 'remote_path', 'omdbapikey','importMode']
             if envCatKey in os.environ:
                 for index in range(len(envKeys)):
                     key = 'NZBPO_RA{index}'.format(index=envKeys[index])
@@ -426,7 +430,7 @@ class ConfigObj(configobj.ConfigObj, Section):
                        'Torrent_NoLink', 'nzbExtractionBy', 'wait_for', 'delete_failed', 'remote_path']
             if envCatKey in os.environ:
                 for index in range(len(envKeys)):
-                    key = 'NZBPO_RA{index}'.format(index=envKeys[index])
+                    key = 'NZBPO_LI{index}'.format(index=envKeys[index])
                     if key in os.environ:
                         option = cfgKeys[index]
                         value = os.environ[key]
@@ -434,8 +438,8 @@ class ConfigObj(configobj.ConfigObj, Section):
                             CFG_NEW[section][os.environ[envCatKey]] = {}
                         CFG_NEW[section][os.environ[envCatKey]][option] = value
                 CFG_NEW[section][os.environ[envCatKey]]['enabled'] = 1
-                if os.environ[envCatKey] in CFG_NEW['CouchPotato'].sections:
-                    CFG_NEW['CouchPotato'][envCatKey]['enabled'] = 0
+                if os.environ[envCatKey] in CFG_NEW['HeadPhones'].sections:
+                    CFG_NEW['HeadPhones'][envCatKey]['enabled'] = 0
 
             section = "Extensions"
             envKeys = ['COMPRESSEDEXTENSIONS', 'MEDIAEXTENSIONS', 'METAEXTENSIONS']

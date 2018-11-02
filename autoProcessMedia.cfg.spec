@@ -99,6 +99,8 @@
         remote_path = 0
         ##### Set to path where download client places completed downloads locally for this category
         watch_dir =
+        ##### Set to define import behavior Move or Copy
+        importMode = Copy
 
 [SickBeard]
     #### autoProcessing for TV Series
@@ -167,6 +169,8 @@
         remote_path = 0
         ##### Set to path where download client places completed downloads locally for this category
         watch_dir =
+        ##### Set to define import behavior Move or Copy
+        importMode = Copy
 
 [HeadPhones]
     #### autoProcessing for Music
@@ -195,8 +199,8 @@
         watch_dir =
 
 [Lidarr]
-    #### autoProcessing for Movies
-    #### raCategory - category that gets called for post-processing with Radarr
+    #### autoProcessing for Music
+    #### LiCategory - category that gets called for post-processing with Lidarr
     [[music]]
         enabled = 0
         apikey =
@@ -228,8 +232,7 @@
         enabled = 0
         host = localhost
         port= 8090
-        username=
-        password=
+        apikey=
         ###### ADVANCED USE - ONLY EDIT IF YOU KNOW WHAT YOU'RE DOING ######
         web_root=
         ssl=0
@@ -452,7 +455,7 @@
     #Set convert =1 if you want to convert any "foreign" characters to ASCII (UTF8) before passing to SB/CP etc. Default is disabled (0).
     convert = 0
 
-[passwords]
+[Passwords]
     # enter the full path to a text file containing passwords to be used for extraction attempts.
     # In the passwords file, every password should be on a new line
     PassWordFile =

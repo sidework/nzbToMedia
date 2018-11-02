@@ -62,17 +62,17 @@ FORKS = {}
 FORK_DEFAULT = "default"
 FORK_FAILED = "failed"
 FORK_FAILED_TORRENT = "failed-torrent"
-FORK_SICKRAGETV = "SickRageTV"
 FORK_SICKRAGE = "SickRage"
-FORK_SICKRAGE_API = "SiCKRAGE-api"
+FORK_SICKCHILL = "SickChill"
+FORK_SICKBEARD_API = "SickBeard-api"
 FORK_MEDUSA = "Medusa"
 FORK_SICKGEAR = "SickGear"
 FORKS[FORK_DEFAULT] = {"dir": None}
 FORKS[FORK_FAILED] = {"dirName": None, "failed": None}
 FORKS[FORK_FAILED_TORRENT] = {"dir": None, "failed": None, "process_method": None}
-FORKS[FORK_SICKRAGETV] = {"proc_dir": None, "failed": None, "process_method": None, "force": None, "delete_on": None}
-FORKS[FORK_SICKRAGE] = {"proc_dir": None, "failed": None, "process_method": None, "force": None, "delete_on": None, "force_next": None}
-FORKS[FORK_SICKRAGE_API] = {"path": None, "failed": None, "process_method": None, "force_replace": None, "return_data": None, "type": None, "delete": None, "force_next": None}
+FORKS[FORK_SICKRAGE] = {"proc_dir": None, "failed": None, "process_method": None, "force": None, "delete_on": None}
+FORKS[FORK_SICKCHILL] = {"proc_dir": None, "failed": None, "process_method": None, "force": None, "delete_on": None, "force_next": None}
+FORKS[FORK_SICKBEARD_API] = {"path": None, "failed": None, "process_method": None, "force_replace": None, "return_data": None, "type": None, "delete": None, "force_next": None}
 FORKS[FORK_MEDUSA] = {"proc_dir": None, "failed": None, "process_method": None, "force": None, "delete_on": None, "ignore_subs":None}
 FORKS[FORK_SICKGEAR] = {"dir": None, "failed": None, "process_method": None, "force": None}
 ALL_FORKS = {k:None for k in set(list(itertools.chain.from_iterable([FORKS[x].keys() for x in FORKS.keys()])))}
@@ -317,7 +317,7 @@ def initialize(section=None):
     nzbToMediaDB.upgradeDatabase(nzbToMediaDB.DBConnection(), mainDB.InitialSchema)
 
     # Set Version and GIT variables
-    NZBTOMEDIA_VERSION = '11.05'
+    NZBTOMEDIA_VERSION = '11.06'
     VERSION_NOTIFY = int(CFG['General']['version_notify'])
     AUTO_UPDATE = int(CFG['General']['auto_update'])
     GIT_REPO = 'nzbToMedia'

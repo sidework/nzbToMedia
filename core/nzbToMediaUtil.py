@@ -883,7 +883,7 @@ def remove_torrent(clientAgent, inputHash, inputID, inputName):
             if clientAgent == 'deluge' and core.TORRENT_CLASS != "":
                 core.TORRENT_CLASS.core.remove_torrent(inputID, True)
             if clientAgent == 'qbittorrent' and core.TORRENT_CLASS != "":
-                core.TORRENT_CLASS.delete(inputHash)
+                core.TORRENT_CLASS.delete_permanently(inputHash)
             time.sleep(5)
         except:
             logger.warning("Failed to delete torrent {0} in {1}".format(inputName, clientAgent))
@@ -1118,10 +1118,12 @@ def find_imdbid(dirName, inputName, omdbApiKey):
 
         url = "http://www.omdbapi.com"
 
+        if not omdbApiKey:
+            logger.info("Unable to determine imdbID: No api key provided for ombdapi.com.")
+            return
+
         logger.debug("Opening URL: {0}".format(url))
 
-        if not omdbApiKey:
-            return
         try:
             r = requests.get(url, params={'apikey': omdbApiKey, 'y': year, 't': title},
             verify=False, timeout=(60, 300))
