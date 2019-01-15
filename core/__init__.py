@@ -331,6 +331,7 @@ def initialize(section=None):
     NOEXTRACTFAILED = int(CFG["General"]["no_extract_failed"])
 
     # Check for updates via GitHUB
+    updated = versionCheck.CheckVersion().update()
     if versionCheck.CheckVersion().check_for_new_version():
         if AUTO_UPDATE == 1:
             logger.info("Auto-Updating nzbToMedia, Please wait ...")

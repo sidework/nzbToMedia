@@ -78,8 +78,8 @@ class CheckVersion(object):
         return True
 
     def update(self):
-        if self.updater.need_update():
-            return self.updater.update()
+        #if self.updater.need_update():
+        return self.updater.update()
 
 
 class UpdateManager(object):
@@ -323,7 +323,7 @@ class GitUpdateManager(UpdateManager):
         on the call's success.
         """
 
-        output, err, exit_status = self._run_git(self._git_path, 'pull origin {branch}'.format(branch=self.branch))  # @UnusedVariable
+        output, err, exit_status = self._run_git(self._git_path, 'checkout master')  # @UnusedVariable
 
         if exit_status == 0:
             return True
