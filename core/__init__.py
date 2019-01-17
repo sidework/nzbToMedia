@@ -332,19 +332,15 @@ def initialize(section=None):
 
     # Check for updates via GitHUB
     updated = versionCheck.CheckVersion().update()
-    if versionCheck.CheckVersion().check_for_new_version():
-        if AUTO_UPDATE == 1:
-            logger.info("Auto-Updating nzbToMedia, Please wait ...")
-            updated = versionCheck.CheckVersion().update()
-            if updated:
-                # restart nzbToMedia
-                try:
-                    del MYAPP
-                except:
-                    pass
-                restart()
-            else:
-                logger.error("Update wasn't successful, not restarting. Check your log for more information.")
+    if updated:
+        # restart nzbToMedia
+        try:
+            del MYAPP
+        except:
+            pass
+        restart()
+    else:
+        logger.error("Update wasn't successful, not restarting. Check your log for more information.")
 
     # Set Current Version
     logger.info('nzbToMedia Version:{version} Branch:{branch} ({system} {release})'.format
