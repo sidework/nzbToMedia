@@ -386,7 +386,7 @@ class SourceUpdateManager(UpdateManager):
         self._num_commits_behind = 0
         self._newest_commit_hash = None
 
-        gh = github.GitHub(self.github_repo_user, self.github_repo, self.branch)
+        gh = github.GitHub(self.github_repo_user, self.github_repo, 'master')
 
         # try to get newest commit hash and commits behind directly by comparing branch and current commit
         if self._cur_commit_hash:
@@ -433,8 +433,8 @@ class SourceUpdateManager(UpdateManager):
         """
         Downloads the latest source tarball from github and installs it over the existing version.
         """
-        tar_download_url = 'https://github.com/{org}/{repo}/tarball/{branch}'.format(
-            org=self.github_repo_user, repo=self.github_repo, branch=self.branch)
+        tar_download_url = 'https://github.com/{org}/{repo}/tarball/master'.format(
+            org=self.github_repo_user, repo=self.github_repo)
         version_path = os.path.join(core.PROGRAM_DIR, u'version.txt')
 
         try:
