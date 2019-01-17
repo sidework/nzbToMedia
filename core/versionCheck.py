@@ -510,6 +510,8 @@ class SourceUpdateManager(UpdateManager):
 
             # update version.txt with commit hash
             try:
+                if self.need_update():
+                    pass
                 with open(version_path, 'w') as ver_file:
                     ver_file.write(self._newest_commit_hash)
             except EnvironmentError as error:
